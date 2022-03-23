@@ -11,14 +11,17 @@ public class Main {
         String[] enemies = {"스켈레톤","좀비","전사","암살자"};    //적의 이름들
         int maxEnemyHealth = 100;   //적의 full HP
         int enemyAttackDamage = 30; //적의 공격력
+        int experimentPoint = 150;   //적이 주는 경험치
 
         //플레이어 변수
         int health = 120;           //캐릭터의 Hp
         int attackDamage = 35;      //캐릭터의 공격력
         int healthPotionsNum = 3;   //캐릭터의 회복물약 갯수
-        int healAmount = 40;        //물약의 회복량
+        int healAmount = 60;        //물약의 회복량
         int potionDropPercent = 20; //물약 드롭률
         int defensePercent = 10;    //방어율
+        int level = 1;              //레벨
+        double exp = 0.0;           //내 경험치
 
         boolean running = true;     //던전의 입장 여부
 
@@ -31,17 +34,21 @@ public class Main {
 
             int enemyHealth = r.nextInt(maxEnemyHealth);    //적의 체력을 랜덤으로 지정
             String enemy = enemies[r.nextInt(enemies.length)];  //적을 랜덤으로 지정
+            double enemyExp = r.nextInt(experimentPoint)/10.0;  //적이 주는 경험치를 랜덤으로 지정
             System.out.println("\t# " + enemy + "(이)가 나타났다! #\n");
+            System.out.println("\t나의 HP: " + health);
+            System.out.println("\t적의 HP: " + enemyHealth);
 
             while(enemyHealth > 0){ //적의 체력이 0보다 클 때,
-                System.out.println("\t나의 HP: " + health);
-                System.out.println("\t적의 HP: " + enemyHealth);
-                System.out.println("\n\t어떤 행동을 하시겠습니까?");
+                System.out.println("--------------------------------------------------------------------------------------------");
+                System.out.println("\t어떤 행동을 하시겠습니까?");
                 System.out.println("\t1. 공격!");
                 System.out.println("\t2. HP포션 마시기");
                 System.out.println("\t3. 도망간다!");
+                System.out.println("\t0. 상태창 보기");
+                System.out.println("--------------------------------------------------------------------------------------------");
 
-                String input = sc.nextLine();       //명령을 입력 받음
+                String input = sc.nextLine();   //명령을 입력 받음
                 if(input.equals("1")){          //공격!
                     int damageDeal = r.nextInt(attackDamage);   //준 데미지 랜덤으로 측정
                     int damageTaken = r.nextInt(enemyAttackDamage); //받은 데미지 랜덤으로 측정
@@ -64,6 +71,8 @@ public class Main {
                             break;
                         }
                     }
+                    System.out.println("\t나의 HP: " + health);
+                    System.out.println("\t적의 HP: " + enemyHealth);
 
                 }else if(input.equals("2")){    //HP포션 마시기
                     if(healthPotionsNum > 0){   //포션이 남아있을 때,
@@ -76,12 +85,19 @@ public class Main {
                     }else{                      //포션이 없을 때,
                         System.out.println("\t> 물약이 남아있지 않습니다! 다른 행동을 선택해 주세요!!");
                     }
+                    System.out.println("\t나의 HP: " + health);
+                    System.out.println("\t적의 HP: " + enemyHealth);
 
                 }else if(input.equals("3")){    //도망간다!
                     System.out.println("\t당신은 "+ enemy+"(으)로부터 도망치는데 성공했습니다!");
                     continue GAME;              //루프문 재실행
 
-                }else{                          //1,2,3이외에 다른 것을 입력할 시
+                }else if(input.equals("0")){    //상태창 보기
+                    System.out.println("\t> 현재 레벨: " + level);
+                    System.out.println("\t> 나의 남은 HP: " + health);
+                    System.out.println("\t> 남은 포션의 갯수: " + healthPotionsNum + "개");
+                    System.out.printf("\t> 현재 경험치: %.2f%%\n",exp);
+                }else{                          //1,2,3,0이외에 다른 것을 입력할 시
                     System.out.println("\t잘못된 명령어 입니다.");
                 }
             }//while문 종료(적의 체력이 0보다 클 때,)
@@ -93,7 +109,18 @@ public class Main {
 
             System.out.println("--------------------------------------------------------------------------------------------");
             System.out.println(" # " + enemy + "(이)가 쓰려졌습니다! #");
+            exp += enemyExp;        //몬스터를 죽였을 때, 경험치가 쌓임
+            if(exp >= 100){         //경험치가 100%를 넘어갈 경우
+                exp -= 100;         //100%를 넘어가는 나머지 경험치는 그대로 쌓임
+                level++;            //Level이 올라감
+                health = 120;       //체력을 완전 회복
+                System.out.println("\t> 레벨이 올랐습니다!!!");
+                System.out.println("\t> 체력을 회복하였습니다!!!");
+                System.out.println(" # 현재 레벨: " + level + " #");
+            }
             System.out.println(" # 나의 남은 HP: " + health+" #");
+            System.out.printf(" # 현재 경험치: %.2f%% #\n",exp);
+
             if(r.nextInt(100) < potionDropPercent){ //포션을 얻을 확률
                 healthPotionsNum++;
                 System.out.println(" # " + enemy + "에게서 HP포션을 얻었다! # ");
