@@ -118,13 +118,13 @@ public class Main {
                 System.out.println("\t> 체력을 회복하였습니다!!!");
                 System.out.println(" # 현재 레벨: " + level + " #");
             }
-            System.out.println(" # 나의 남은 HP: " + health+" #");
-            System.out.printf(" # 현재 경험치: %.2f%% #\n",exp);
+            System.out.println(" # 나의 남은 HP: " + health);
+            System.out.printf(" # 현재 경험치: %.2f%%\n",exp);
 
             if(r.nextInt(100) < potionDropPercent){ //포션을 얻을 확률
                 healthPotionsNum++;
                 System.out.println(" # " + enemy + "에게서 HP포션을 얻었다! # ");
-                System.out.println(" # 남은 HP포션의 갯수: "+healthPotionsNum+"개. # ");
+                System.out.println(" # 남은 HP포션의 갯수: "+healthPotionsNum+"개.");
 
             }
             System.out.println("--------------------------------------------------------------------------------------------");
