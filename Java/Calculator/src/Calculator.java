@@ -1,9 +1,14 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class Calculator extends JFrame {    //계산기 구현
 
     private JTextField inputSpace;          //JTextField로 화면 구현
+    private String num = "";                //계산식의 숫자를 담을 변수
+    private ArrayList<String> equation = new ArrayList<>(); //숫자와 연산기호를 하나씩 구분해서 ArrayList에 담아줌
 
     public Calculator(){
 
@@ -33,6 +38,7 @@ public class Calculator extends JFrame {    //계산기 구현
             }
             buttons[i].setForeground(Color.WHITE);      //글씨 색은 흰색
             buttons[i].setBorderPainted(false);         //버튼의 테두리 없앰
+            buttons[i].addActionListener(new PadActionListener());  //Action Listener추가
             buttonPanel.add(buttons[i]);                //버튼들을 버튼 패널에 추가
 
         }
@@ -50,6 +56,74 @@ public class Calculator extends JFrame {    //계산기 구현
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //프레임을 닫았을 때 메모리에서 삭제
 
     }
+
+    class PadActionListener implements ActionListener{  //버튼이 눌렀을때 실행하기 위해 사용
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            String operation = e.getActionCommand();    //어떤 버튼이 눌렸는지 받아옴
+            if(operation.equals("C")){  //"C"를 눌렸을 시, 텍스트 초기화
+                inputSpace.setText("");
+            }else if(operation.equals("=")){    //"="를 눌렸을 시, 계산결과가 나오도록 한다.
+                String result = Double.toString(calculate(inputSpace.getText()));
+                inputSpace.setText("" + result);
+                num = "";
+            }else{                      //나머지는 그대로 계산기에 적어준다.
+                inputSpace.setText(inputSpace.getText() + e.getActionCommand());
+            }
+        }
+    }
+
+    private void fullTextParsing(String inputText){
+        equation.clear();
+
+        for(int i = 0;i<inputText.length();i++){        //계산식 글자를 하나하나 거쳐가게 만듬
+            char ch = inputText.charAt(i);
+
+            if(ch == '-' || ch == '+' || ch == '×' || ch == '÷'){
+                equation.add(num);  //연산기호를 거치게 된다면 앞은 숫자이므로 숫자먼저 추가
+                num = "";           //num초기화 후 연산기호를 추가
+                equation.add(ch + "");
+            }else{                  //숫자인 경우 num문자에 더해준다.
+                num = num + ch;
+            }
+        }
+        equation.add(num);          //반복문이 끝나고 최종적으로 있는 num도 ArrayList에 추가
+    }
+
+    public double calculate(String inputText){
+        fullTextParsing(inputText); //실행하면 ArrayList에 숫자와 연산기호들이 담기게 됨
+
+        double prev = 0;
+        double current = 0;
+        String mode = "";
+
+        for(String s : equation){
+            if(s.equals("+")){
+                mode = "add";
+            }else if(s.equals("-")){
+                mode = "sub";
+            }else if(s.equals("×")){
+                mode = "mul";
+            }else if(s.equals("÷")){
+                mode = "div";
+            }else{  //나머지 숫자의 경우 문자열을 형변환 시켜줘야됨
+                current = Double.parseDouble(s);
+                if(mode.equals("add")){
+                    prev += current;
+                }else if(mode.equals("sub")){
+                    prev -= current;
+                }else if(mode.equals("mul")){
+                    prev *= current;
+                }else if(mode.equals("div")){
+                    prev /= current;
+                }else{
+                    prev = current;
+                }
+            }
+        }
+        return prev;
+    }
+
     public static void main(String[] args) {
         new Calculator();
 
