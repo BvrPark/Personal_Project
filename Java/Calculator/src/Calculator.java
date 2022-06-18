@@ -40,13 +40,12 @@ public class Calculator extends JFrame {    //계산기 구현
             buttons[i].setBorderPainted(false);         //버튼의 테두리 없앰
             buttons[i].addActionListener(new PadActionListener());  //Action Listener추가
             buttonPanel.add(buttons[i]);                //버튼들을 버튼 패널에 추가
-
         }
 
-        add(inputSpace);                    //inputSpace추가
-        add(buttonPanel);                   //buttonPanel추가
+        add(inputSpace);                    //프레임에 inputSpace추가
+        add(buttonPanel);                   //프레임에 buttonPanel추가
 
-       setLayout(null);                     //기본적으로 있는 레이아웃 관리자 제거
+        setLayout(null);                    //기본적으로 있는 레이아웃 관리자 제거
         setTitle("계산기");                  //타이틀을 계산기로 해서 생성
         setVisible(true);                   //창을 보이게 함(기본값은 안보임)
         setSize(300, 370);     //창 크기 지정
@@ -65,6 +64,7 @@ public class Calculator extends JFrame {    //계산기 구현
                 inputSpace.setText("");
             }else if(operation.equals("=")){    //"="를 눌렸을 시, 계산결과가 나오도록 한다.
                 String result = Double.toString(calculate(inputSpace.getText()));
+                //inputSpace의 text를 가지고 와서 calculate메서드 안에 넣어서 계산을 한다.
                 inputSpace.setText("" + result);
                 num = "";
             }else{                      //나머지는 그대로 계산기에 적어준다.
