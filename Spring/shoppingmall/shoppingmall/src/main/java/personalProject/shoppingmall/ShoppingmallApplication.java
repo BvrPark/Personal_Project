@@ -1,13 +1,13 @@
-package myproject.board;
+package personalProject.shoppingmall;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class BoardApplication {
+public class ShoppingmallApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(BoardApplication.class, args);
+		SpringApplication.run(ShoppingmallApplication.class, args);
 	}
 
 }
