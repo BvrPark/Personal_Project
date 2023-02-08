@@ -21,6 +21,7 @@ public class Item {
 
     private String itemDetail;
 
+    //SELL,SOLD_OUT
     @Enumerated(EnumType.STRING)
-    private ItemSellStatus status;
+    private ItemStatus status;
 }

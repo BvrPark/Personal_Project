@@ -1,24 +1,20 @@
 package personalProject.shoppingmall.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import javax.persistence.Embeddable;
 
 @Embeddable
 @Getter
+@AllArgsConstructor
 public class Address {
 
     private String city;
     private String street;
-    private String detail;
+    private String zipcode;
 
     protected Address(){
 
-    }
-
-    public Address(String city, String street, String detail){
-        this.city = city;
-        this.street = street;
-        this.detail = detail;
     }
 }
