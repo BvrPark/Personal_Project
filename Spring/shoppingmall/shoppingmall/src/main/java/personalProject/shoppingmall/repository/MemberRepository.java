@@ -5,12 +5,11 @@ import org.springframework.stereotype.Repository;
 import personalProject.shoppingmall.domain.Member;
 
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
-public class MemberRepository {
+public class MemberRepository{
 
     private final EntityManager em;
 
@@ -34,6 +33,13 @@ public class MemberRepository {
     public List<Member> findByName(String name){
         return em.createQuery("select m from Member m where m.name = :name", Member.class)
                 .setParameter("name", name)
+                .getResultList();
+    }
+
+    //이메일로 회원 찾기
+    public List<Member> findByEmail(String email){
+        return em.createQuery("select m from Member m where m.email = :email", Member.class)
+                .setParameter("email", email)
                 .getResultList();
     }
 }

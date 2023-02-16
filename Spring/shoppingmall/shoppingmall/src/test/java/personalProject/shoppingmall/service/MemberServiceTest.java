@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import personalProject.shoppingmall.domain.Member;
 import personalProject.shoppingmall.repository.MemberRepository;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.fail;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest

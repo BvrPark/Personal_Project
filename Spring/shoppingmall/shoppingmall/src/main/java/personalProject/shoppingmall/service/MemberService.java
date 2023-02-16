@@ -1,7 +1,6 @@
 package personalProject.shoppingmall.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import personalProject.shoppingmall.domain.Member;
@@ -27,9 +26,12 @@ public class MemberService {
 
     private void validateDuplicateMember(Member member) {
         List<Member> findMembers = memberRepository.findByName(member.getName());
+        List<Member> findMembersEmail = memberRepository.findByEmail(member.getEmail());
         //EXCEPTION
         if(!findMembers.isEmpty()){
             throw new IllegalStateException("이미 존재하는 아이디입니다.");
+        }else if(!findMembersEmail.isEmpty()){
+            throw new IllegalStateException("이미 존재하는 이메일입니다.");
         }
     }
 
