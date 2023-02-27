@@ -15,10 +15,10 @@ public class Question {
     @Column(name = "question_id")
     private Long id;
 
-    @Column(unique = true, length = 200)
+    @Column(length = 200)
     private String subject;
 
-    @Column(unique = true, columnDefinition = "TEXT")
+    @Column(columnDefinition = "TEXT")
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
