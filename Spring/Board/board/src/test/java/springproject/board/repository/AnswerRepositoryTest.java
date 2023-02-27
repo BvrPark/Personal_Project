@@ -55,16 +55,17 @@ class AnswerRepositoryTest {
         question.setSubject("제목입니다.");
         question.setContent("본문입니다.");
         questionRepository.save(question);
-        Question findQuestion = questionRepository.findById(question.getId()).get();
 
         Answer answer = new Answer();
         answer.setContent("답변입니다.");
-        answer.setQuestion(findQuestion);
+        answer.setQuestion(question);
         answer.setCreateDate(LocalDateTime.now());
         answerRepository.save(answer);
 
+        Question findQuestion = questionRepository.findById(question.getId()).get();
+
         //when
-        List<Answer> answerList = answerRepository.answerList(findQuestion);
+        List<Answer> answerList = findQuestion.getAnswerList();
 
         //then
         assertThat(answerList.get(0).getContent()).isEqualTo("답변입니다.");
